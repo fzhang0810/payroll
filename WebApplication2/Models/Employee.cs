@@ -8,7 +8,8 @@ namespace WebApplication2.Models
 {
     public class Employee
     {
-        public Employee(string name, string email, string phoneNumber, double benefitCost, Int32 numberOfDependents, double incomeYearly, double incomePerPay)
+        public Employee(string name, string email, string phoneNumber, double benefitCost, Int32 numberOfDependents, 
+            double incomeYearly, double incomePerPay, string id)
         {
             Dependents = new List<DependentsEntity>();
             AnnualBenefitCosts = benefitCost;
@@ -18,9 +19,12 @@ namespace WebApplication2.Models
             NumberOfDependents = numberOfDependents;
             TakeHomeIncomeYearly = incomeYearly;
             TakeHomeIncomeMonthly = incomePerPay;
+            EmployeeId = id;
         }
 
         public string Name { get; set; }
+
+        public string EmployeeId { get; set; }
 
         public List<DependentsEntity> Dependents { get; set; }
 

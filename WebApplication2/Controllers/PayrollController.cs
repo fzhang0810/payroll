@@ -47,6 +47,39 @@ namespace WebApplication2.Controllers
         }
 
 
+        /// <summary>
+        /// Get all lists of table
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        [SwaggerResponse(HttpStatusCode.Created, Description = "Get all lists of table")]
+        [HttpGet, Route("getallemployees")]
+        public async Task<Payroll> GetAllListsOfTable()
+        {
+            try
+            {
+                CloudTableClient tableClient = await Config.TableClient();
+                CloudTable table = tableClient.GetTableReference(Constants.EMPLOYEE_TABLE);
+                TableQuery<EmployeeEntity> query = new TableQuery<EmployeeEntity>();
+                Payroll res = new Payroll();
+                foreach (EmployeeEntity employeeRes in table.ExecuteQuery(query))
+                {
+                    Employee employee = new Employee(employeeRes.FullName, employeeRes.Email, employeeRes.PhoneNumber,
+                        employeeRes.AnnualBenefitCosts, employeeRes.numberOfDependents, employeeRes.TakeHomeIncomeYearly, 
+                        employeeRes.TakeHomeIncomePerPay, employeeRes.RowKey);
+                    res.EmployeePayroll.Add(employee);
+                    res.TotalBenefitCosts += employeeRes.AnnualBenefitCosts;
+                }
+                return res;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+
+
 
         /// <summary>
         /// Get a employee

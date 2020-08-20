@@ -48,6 +48,7 @@ namespace WebApplication2.Services
             employee.TakeHomeIncomePerPay = System.Math.Round((Paycheck * PayCycle - employee.AnnualBenefitCosts) / PayCycle, 2);
         }
 
+       
         public static void AddDependent(EmployeeEntity employee, DependentsEntity dependentEntity)
         {
             employee.numberOfDependents++;

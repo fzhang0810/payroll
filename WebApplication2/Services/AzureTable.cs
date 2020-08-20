@@ -68,7 +68,8 @@ namespace WebApplication2.Services
                     var queryResult = tableDependent.ExecuteQuery(query).ToList();
                     EmployeeEntity employeeRes = (EmployeeEntity)retrievedResult.Result;
                     Employee res = new Employee(employeeRes.FullName, employeeRes.Email, employeeRes.PhoneNumber,
-                        employeeRes.AnnualBenefitCosts, employeeRes.numberOfDependents, employeeRes.TakeHomeIncomeYearly, employeeRes.TakeHomeIncomePerPay);
+                        employeeRes.AnnualBenefitCosts, employeeRes.numberOfDependents, employeeRes.TakeHomeIncomeYearly, 
+                        employeeRes.TakeHomeIncomePerPay, employeeRes.RowKey);
                     res.Dependents = queryResult;
                     return res;
                 }
@@ -107,11 +108,7 @@ namespace WebApplication2.Services
                     if (updateEntity != null)
                     {
                         Calculations.AddDependent(updateEntity, dependentEntity);
-                        //updateEntity.numberOfDependents++;
-                        //updateEntity.AnnualBenefitCosts += dependentEntity.AnnualBenefitCosts;
-                        //updateEntity.TakeHomeIncomeYearly = 2000 * 26 - updateEntity.AnnualBenefitCosts;
-                        //updateEntity.TakeHomeIncomePerPay = System.Math.Round((2000 * 26 - updateEntity.AnnualBenefitCosts) / 26, 2);
-                        // Create the InsertOrReplace TableOperation
+                      
                         TableOperation insertOrReplaceOperation = TableOperation.InsertOrReplace(updateEntity);
 
                         // Execute the operation.
@@ -151,10 +148,7 @@ namespace WebApplication2.Services
                     DependentsEntity entityDependent = (DependentsEntity)retrievedResultDependent.Result;
 
                     Calculations.RemoveDependent(updateEntity, entityDependent);
-                    //updateEntity.numberOfDependents--;
-                    //updateEntity.AnnualBenefitCosts -= entityDependent.AnnualBenefitCosts;
-                    //updateEntity.TakeHomeIncomePerPay = 2000 * 26 - updateEntity.AnnualBenefitCosts;
-                    //updateEntity.TakeHomeIncomePerPay = System.Math.Round((2000 * 26 - updateEntity.AnnualBenefitCosts) / 26, 2);
+                 
                     TableOperation insertOrReplaceOperation = TableOperation.InsertOrReplace(updateEntity);
 
                     // Execute the operation.
